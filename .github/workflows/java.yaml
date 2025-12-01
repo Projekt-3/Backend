@@ -11,12 +11,9 @@ on:
       - development
   workflow_dispatch:
 
-env: 
+env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  DB_URL: ${{DB_URL}}
-  DB_USERNAME: ${{DB_USERNAME}}
-  DB_PASSWORD: ${{DB_PASSWORD}}
 
 jobs:
   build-and-push:
