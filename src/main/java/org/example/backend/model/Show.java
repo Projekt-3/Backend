@@ -1,61 +1,33 @@
 package org.example.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
+import java.util.List;
+
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Show {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private int id;
     private String name;
     private Date startDate;
     private Date endDate;
 
-    public Show(int ID, String name, Date startDate, Date endDate) {
-        this.ID = ID;
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
+    @ManyToMany
+    @JoinTable(name = "Employee_Show",
+            joinColumns = @JoinColumn(name = "showId"),
+            inverseJoinColumns = @JoinColumn(name = "employeeId"))
+    private List<Employee> employees;
 
-    public Show() {
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+    @OneToMany(mappedBy = "show")
+    private List<Shift> shifts;
 }

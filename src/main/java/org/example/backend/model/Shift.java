@@ -1,62 +1,35 @@
 package org.example.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Shift {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
-    private int showID;
+    private int Id;
     private LocalTime checkIn;
     private LocalTime checkOut;
 
-    public Shift(int ID, int showID, LocalTime checkIn, LocalTime checkOut) {
-        this.ID = ID;
-        this.showID = showID;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-    }
+    @ManyToOne
+    @JoinColumn(name = "showId")
+    private Show show;
 
-    public Shift() {
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public int getShowID() {
-        return showID;
-    }
-
-    public void setShowID(int showID) {
-        this.showID = showID;
-    }
-
-    public LocalTime getCheckIn() {
-        return checkIn;
-    }
-
-    public void setCheckIn(LocalTime checkIn) {
-        this.checkIn = checkIn;
-    }
-
-    public LocalTime getCheckOut() {
-        return checkOut;
-    }
-
-    public void setCheckOut(LocalTime checkOut) {
-        this.checkOut = checkOut;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "Employee_Shift",
+            joinColumns = @JoinColumn(name = "ShiftId"),
+            inverseJoinColumns = @JoinColumn(name = "EmployeeId")
+    )
+    private List<Employee> employees;
 }
