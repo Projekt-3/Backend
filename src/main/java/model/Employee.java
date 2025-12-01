@@ -10,8 +10,11 @@ public class Employee {
     private int ID;
     private String firstname;
     private String lastname;
+    @Column(unique = true)
     private String username;
+    @Column(unique = true)
     private String mail;
+    @Column(unique = true)
     private int phone;
     private String password;
     @Enumerated(EnumType.STRING)
