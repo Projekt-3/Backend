@@ -43,7 +43,6 @@ jobs:
       - run: docker build . --tag lion:test
       - run: |
           docker run -d --name test-container -p 8080:8080 lion:test
-          docker logs test-container
           sleep 30
           curl -f http://localhost:8080/healthz || exit 1
           docker stop test-container
