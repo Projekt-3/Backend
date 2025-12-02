@@ -2,10 +2,8 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalTime;
 import java.util.List;
-
 
 @Entity
 @NoArgsConstructor
@@ -17,19 +15,21 @@ public class Shift {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private int id;
+
     private LocalTime checkIn;
     private LocalTime checkOut;
 
+    // ---------------------
+    // ManyToOne with Show
+    // ---------------------
     @ManyToOne
-    @JoinColumn(name = "showId")
+    @JoinColumn(name = "show_id")
     private Show show;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Employee_Shift",
-            joinColumns = @JoinColumn(name = "ShiftId"),
-            inverseJoinColumns = @JoinColumn(name = "EmployeeId")
-    )
+    // ---------------------
+    // ManyToMany with Employee (inverse side)
+    // ---------------------
+    @ManyToMany(mappedBy = "shifts")
     private List<Employee> employees;
 }
