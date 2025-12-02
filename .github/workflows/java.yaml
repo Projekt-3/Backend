@@ -43,11 +43,8 @@ jobs:
       - run: docker build . --tag lion:test
       - run: |
           docker run -d --name test-container -p 8080:8080 lion:test
-          for i in {1..20}; do
-            curl -f http://localhost:8080/healthz && break
-            echo "Waiting for app..."
-            sleep 3
-          done
+          sleep 90
+          curl -f http://localhost:8080/healthz || exit 1
           docker stop test-container
           docker rm test-container
 
