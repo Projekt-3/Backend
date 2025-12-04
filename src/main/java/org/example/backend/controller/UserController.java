@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+//@RequestMapping("/dashboard")
 public class UserController {
 
     @Autowired
@@ -21,7 +23,7 @@ public class UserController {
 
 
     // Til at registrere nye users
-    @PostMapping("/register")
+    @PostMapping("/manager/register")
     public ResponseEntity<String> registerUser(@RequestBody Employee employee) {
         Employee savedEmployee = null;
         ResponseEntity response = null;
