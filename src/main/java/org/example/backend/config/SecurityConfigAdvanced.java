@@ -44,6 +44,7 @@ public class SecurityConfigAdvanced {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
                         config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+                        config.setAllowedOrigins(Collections.singletonList("http://localhost:63342"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
@@ -54,7 +55,7 @@ public class SecurityConfigAdvanced {
                 }))
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact","/register", "/dologin", "/healthz")
+                        .ignoringRequestMatchers("/contact","/manager/register", "/dologin", "/healthz")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
@@ -62,7 +63,7 @@ public class SecurityConfigAdvanced {
                         .requestMatchers("/dashboard/manager").hasRole("MANAGER")
                         .requestMatchers("/dashboard/employee").hasRole("EMPLOYEE")
                         .requestMatchers("/test").hasRole("MANAGER")
-                        .requestMatchers("/contact","/healthz","/register", "/dologin", "/healthz").permitAll()
+                        .requestMatchers("/contact","/healthz","/manager/register", "/dologin", "/healthz").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Formegentlig fjerne disse to nederste når vi laver frontenden
