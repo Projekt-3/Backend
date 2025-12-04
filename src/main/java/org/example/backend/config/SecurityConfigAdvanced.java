@@ -55,15 +55,15 @@ public class SecurityConfigAdvanced {
                 }))
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact","/manager/register", "/dologin", "/healthz")
+                        .ignoringRequestMatchers("/contact","/dashboard/manager/register", "/dologin", "/healthz")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/dashboard/manager").hasRole("MANAGER")
+                        //.requestMatchers("/dashboard/manager").hasRole("MANAGER") udkommeteret til test i postman
                         .requestMatchers("/dashboard/employee").hasRole("EMPLOYEE")
                         .requestMatchers("/test").hasRole("MANAGER")
-                        .requestMatchers("/contact","/healthz","/manager/register", "/dologin", "/healthz").permitAll()
+                        .requestMatchers("/contact","/healthz","/dashboard/manager/register", "/dologin", "/healthz").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Formegentlig fjerne disse to nederste når vi laver frontenden
