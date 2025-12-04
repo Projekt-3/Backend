@@ -14,7 +14,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String firstname;
     private String lastname;
@@ -26,7 +26,7 @@ public class Employee {
     private String mail;
 
     @Column(unique = true)
-    private int phone;
+    private Integer phone;
 
     private String password;
 
