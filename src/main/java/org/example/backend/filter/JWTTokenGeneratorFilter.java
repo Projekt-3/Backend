@@ -38,8 +38,10 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                     .setExpiration(new Date((new Date()).getTime() + 30000000))
                     .signWith(key).compact();
             response.setHeader(SecurityConstants.JWT_HEADER, jwt);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"token\":\"" + jwt + "\"}");
             // response.setContentType("application/json"); jwt i body til frontend
-            System.out.println(jwt); // response.getWriter().write("{\"token\":\"" + jwt + "\"}");
+            //System.out.println(jwt); // response.getWriter().write("{\"token\":\"" + jwt + "\"}");
         }
 
         filterChain.doFilter(request, response);

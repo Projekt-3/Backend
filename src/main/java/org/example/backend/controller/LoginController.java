@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class LoginController {
 
@@ -20,11 +23,13 @@ public class LoginController {
     AuthenticationManager authenticationManager;
 
     @PostMapping("/dologin")
-    public ResponseEntity<String> doLogin(@RequestBody Employee employee) {
+    public ResponseEntity<Map<String, String>> doLogin(@RequestBody Employee employee) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(employee.getMail(), employee.getPassword()));
         if (authentication.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Du er logget på");
+            String token = "GENERATED_JWT"; // fra JWTTokenGeneratorFilter
+            Map<String, String> body = new HashMap<>();
+            body.put("token", token);
+            return ResponseEntity.ok(body);
         } else {
             throw new UsernameNotFoundException("Invalid user request..!!");
         }
