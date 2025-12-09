@@ -1,5 +1,4 @@
 package org.example.backend.filter;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -14,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +26,9 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
         String jwt = request.getHeader(SecurityConstants.JWT_HEADER);
         System.out.printf("JWT Validation kaldt header=" + jwt);
         if (null != jwt) {
+            if (jwt.startsWith("Bearer ")) {
+                jwt = jwt.substring(7); // Fjerner Bearer når det sendes, så der kun er token-strengen tilbage
+            }
             try {
                 SecretKey key = Keys.hmacShaKeyFor(
                         SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
@@ -55,5 +56,4 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
         return path.equals("/dologin") || path.equals("/dashboard/manager/register");
     }
-
 }
