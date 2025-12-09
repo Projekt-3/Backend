@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeService {
 
@@ -41,4 +44,13 @@ public class EmployeeService {
             throw new IllegalArgumentException("Email is already registered");
         }
     }
+
+    public List<Employee> getAllEmp(){
+        return iEmployeeRepository.findAll();
+    }
+
+    public Optional<Employee> getEmpById(int id){
+        return iEmployeeRepository.findById(id);
+    }
+
 }
