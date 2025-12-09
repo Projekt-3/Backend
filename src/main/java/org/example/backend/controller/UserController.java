@@ -24,6 +24,9 @@ public class UserController {
                 .body("Brugeren er oprettet med id: " + savedEmployee.getId());
     }
 
+
+    // -------- READ EMP ----------
+
     @GetMapping("/manager/employees")
     public List<Employee> getAllEmp (){
         return employeeService.getAllEmp();
@@ -39,5 +42,22 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // ------ UPDATE EMP ---------
+
+    @PutMapping("/manager/employees/{id}")
+    public ResponseEntity<String> updateEmp(@PathVariable int id, @RequestBody Employee updatedEmp){
+    boolean updated =  employeeService.updateEmp(id, updatedEmp);
+
+    if(!updated){
+        return ResponseEntity.status(404).body("Medarbejder ikke fundet");
+    }
+
+    return ResponseEntity.ok("Medarbejderens informationer er opdateret");
+    }
+
+    // ------ DELETE EMP ----------
+
+
 
 }
