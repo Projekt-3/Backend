@@ -53,7 +53,7 @@ public class EmployeeService {
         return iEmployeeRepository.findById(id);
     }
 
-    public Boolean updateEmp (int id, Employee updatedEmp){
+    public Boolean updateEmpById(int id, Employee updatedEmp){
         Optional<Employee> employee = iEmployeeRepository.findById(id);
 
         if(employee.isEmpty()){
@@ -71,6 +71,10 @@ public class EmployeeService {
 
         iEmployeeRepository.save(existingEmp);
         return true;
+    }
+
+    public void deleteEmpById(int id){
+        iEmployeeRepository.deleteById(id);
     }
 
 }
