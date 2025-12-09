@@ -46,13 +46,13 @@ public class SecurityConfigAdvanced {
                 }))
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact","/dashboard/manager/register", "/dologin", "/healthz", "/test")
+                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees", "/dashboard/manager/employees/{id}","/dashboard/manager/register", "/dologin", "/healthz", "/test")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/dashboard/employee").hasRole("EMPLOYEE")
                         .requestMatchers("/test").hasRole("MANAGER")
-                        .requestMatchers("/contact","/healthz","/dashboard/manager/register", "/dologin", "/healthz").permitAll()
+                        .requestMatchers("/contact","/healthz","/dashboard/manager/employees","/dashboard/manager/employees/{id}","/dashboard/manager/register", "/dologin", "/healthz").permitAll()
                         .anyRequest().authenticated()
                 );
 
