@@ -1,32 +1,67 @@
 package org.example.backend.controller;
-
 import org.example.backend.model.Employee;
+import org.example.backend.constants.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @RestController
 public class LoginController {
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @PostMapping("/dologin")
-    public ResponseEntity<String> doLogin(@RequestBody Employee employee) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(employee.getMail(), employee.getPassword()));
+    public ResponseEntity<Map<String, String>> doLogin(@RequestBody Employee employee) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(employee.getMail(), employee.getPassword())
+        );
+        System.out.println(authentication);
+
         if (authentication.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Du er logget på");
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Generer JWT
+            SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+            String jwt = Jwts.builder()
+                    .setIssuer("Eazy Bank")
+                    .setSubject("JWT Token")
+                    .claim("username", authentication.getName())
+                    .claim("authorities", populateAuthorities(authentication.getAuthorities()))
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + 30_000_000)) // token varighed
+                    .signWith(key)
+                    .compact();
+
+            Map<String, String> body = new HashMap<>();
+            body.put("token", jwt);
+            return ResponseEntity.ok(body);
         } else {
-            throw new UsernameNotFoundException("Invalid user request..!!");
+            throw new RuntimeException("Invalid credentials");
         }
+    }
+
+    private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        HashSet<String> set = new HashSet<>();
+        for (GrantedAuthority auth : authorities) {
+            set.add(auth.getAuthority());
+        }
+        return String.join(",", set);
     }
 }
