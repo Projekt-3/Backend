@@ -21,4 +21,28 @@ public class EmployeeDTO {
     private String role;
     private List<Integer> showIds;
     private List<Integer> shiftIds;
+
+
+    public EmployeeDTO(int id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getFullName() {
+        return firstname + " " + lastname;
+    }
 }
