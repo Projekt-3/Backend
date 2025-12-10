@@ -1,6 +1,5 @@
 package org.example.backend.controller;
 
-import org.example.backend.model.Employee;
 import org.example.backend.model.Show;
 import org.example.backend.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ public class ShowController {
     @Autowired
     ShowService showService;
 
-    @PostMapping("/manager/shows")
+    @PostMapping("/manager/register/show")
     public ResponseEntity<String> createShow (@RequestBody Show show){
        Show created = showService.saveShow(show);
         return ResponseEntity.status(HttpStatus.CREATED)
