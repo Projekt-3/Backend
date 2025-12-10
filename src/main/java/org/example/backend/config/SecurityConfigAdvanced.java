@@ -48,7 +48,7 @@ public class SecurityConfigAdvanced {
                 }))
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees","/dashboard/manager/register/show", "/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/test")
+                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees", "/dashboard/manager/register/show", "/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/test")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
