@@ -16,6 +16,8 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -46,13 +48,13 @@ public class SecurityConfigAdvanced {
                 }))
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees", "/dashboard/manager/employees/{id}","/dashboard/manager/register", "/dologin", "/healthz", "/test")
+                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees","/dashboard/manager/register/show", "/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/test")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/dashboard/employee").hasRole("EMPLOYEE")
                         .requestMatchers("/test").hasRole("MANAGER")
-                        .requestMatchers("/contact","/healthz","/dashboard/manager/employees","/dashboard/manager/employees/{id}","/dashboard/manager/register", "/dologin", "/healthz").permitAll()
+                        .requestMatchers("/contact","/dashboard/manager/register/show","/healthz","/dashboard/manager/employees","/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz").permitAll()
                         .anyRequest().authenticated()
                 );
 
