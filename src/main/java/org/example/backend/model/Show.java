@@ -2,7 +2,8 @@ package org.example.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -16,15 +17,12 @@ public class Show {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private String name;
-    private Date startDate;
-    private Date endDate;
+    private String title;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    // ---------------------
-    // OneToMany with Shift
-    // ---------------------
     @OneToMany(mappedBy = "show")
     private List<Shift> shifts;
 }
