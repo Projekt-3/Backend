@@ -5,10 +5,10 @@ import org.example.backend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -17,12 +17,27 @@ public class UserController {
     @Autowired
     EmployeeService employeeService;
 
-
-    // Til at registrere nye users
     @PostMapping("/manager/register")
     public ResponseEntity<String> createUser(@RequestBody Employee employee) {
         Employee savedEmployee = employeeService.createEmployee(employee);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Brugeren er oprettet med id: " + savedEmployee.getId());
     }
+
+    @GetMapping("/manager/employees")
+    public List<Employee> getAllEmp (){
+        return employeeService.getAllEmp();
+    }
+
+    @GetMapping ("/manager/employees/{id}")
+    public ResponseEntity<Employee> getEmpById(@PathVariable int id){
+        Optional<Employee> employee = employeeService.getEmpById(id);
+
+        if(employee.isPresent()){
+            return ResponseEntity.ok(employee.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
