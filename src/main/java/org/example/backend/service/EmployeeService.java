@@ -53,4 +53,24 @@ public class EmployeeService {
         return iEmployeeRepository.findById(id);
     }
 
+    public Boolean updateEmp (int id, Employee updatedEmp){
+        Optional<Employee> employee = iEmployeeRepository.findById(id);
+
+        if(employee.isEmpty()){
+            return false;
+        }
+
+        Employee existingEmp = employee.get();
+
+        existingEmp.setFirstname(updatedEmp.getFirstname());
+        existingEmp.setLastname(updatedEmp.getLastname());
+        existingEmp.setUsername(updatedEmp.getUsername());
+        existingEmp.setRole(updatedEmp.getRole());
+        existingEmp.setMail(updatedEmp.getMail());
+        existingEmp.setPhone(updatedEmp.getPhone());
+
+        iEmployeeRepository.save(existingEmp);
+        return true;
+    }
+
 }
