@@ -1,8 +1,10 @@
 package org.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +17,10 @@ public class Shift {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
+    private LocalTime plannedStart;
+    private LocalTime plannedEnd;
     private LocalTime checkIn;
     private LocalTime checkOut;
 
