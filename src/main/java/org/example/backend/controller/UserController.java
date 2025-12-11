@@ -47,7 +47,7 @@ public class UserController {
 
     @PutMapping("/manager/employees/{id}")
     public ResponseEntity<String> updateEmp(@PathVariable int id, @RequestBody Employee updatedEmp){
-    boolean updated =  employeeService.updateEmp(id, updatedEmp);
+    boolean updated =  employeeService.updateEmpById(id, updatedEmp);
 
     if(!updated){
         return ResponseEntity.status(404).body("Medarbejder ikke fundet");
@@ -57,6 +57,17 @@ public class UserController {
     }
 
     // ------ DELETE EMP ----------
+    @DeleteMapping ("/manager/employees/{id}")
+    public ResponseEntity<String> deleteEmp (@PathVariable int id){
+        Optional<Employee> employee = employeeService.getEmpById(id);
+
+        if(employee.isPresent()){
+            employeeService.deleteEmpById(id);
+            return ResponseEntity.ok("Medarbejder er slettet");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medarbejder ikke fundet");
+        }
+    }
 
 
 
