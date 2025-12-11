@@ -43,4 +43,7 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(name = "shift_id")
     )
     private List<Shift> shifts;
+
+    @ManyToMany(mappedBy = "employees")
+    private List<Show> shows;
 }
