@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ShowService {
@@ -38,4 +39,8 @@ public class ShowService {
         return iShowRepository.save(show);
     }
 
+
+    public List<Show> getAllShows() {
+        return iShowRepository.findAll();
+    }
 }
