@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.ShowDTO;
 import org.example.backend.model.Show;
 import org.example.backend.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class ShowController {
     ShowService showService;
 
     @PostMapping("/manager/register/show")
-    public ResponseEntity<String> createShow (@RequestBody Show show){
-       Show created = showService.saveShow(show);
+    public ResponseEntity<String> createShow (@RequestBody ShowDTO dto){
+       Show created = showService.createShow(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Forestillingen er oprettet med id: " + created.getId());
     }

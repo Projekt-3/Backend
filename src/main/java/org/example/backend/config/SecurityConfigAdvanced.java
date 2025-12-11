@@ -37,7 +37,13 @@ public class SecurityConfigAdvanced {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:63342"));
+//                        config.setAllowedOrigins(Collections.singletonList("http://localhost:63342"));
+                        config.setAllowedOrigins(Arrays.asList(
+                                "http://localhost:63342",
+                                "http://localhost",
+                                "http://127.0.0.1",
+                                "http://localhost:5500"
+                        ));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
@@ -48,13 +54,13 @@ public class SecurityConfigAdvanced {
                 }))
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees","/dashboard/manager/register/show", "/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/test")
+                        .ignoringRequestMatchers("/contact", "/dashboard/manager/employees","/dashboard/manager/register/show", "/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/test", "/api/shows")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/dashboard/employee").hasRole("EMPLOYEE")
-                        .requestMatchers("/test").hasRole("MANAGER")
-                        .requestMatchers("/contact","/dashboard/manager/register/show","/healthz","/dashboard/manager/employees","/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz").permitAll()
+//                        .requestMatchers("/test").hasRole("MANAGER")
+                        .requestMatchers("/contact","/dashboard/manager/register/show","/healthz","/dashboard/manager/employees","/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/api/shows").permitAll()
                         .anyRequest().authenticated()
                 );
 

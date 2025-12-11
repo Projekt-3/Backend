@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@Table(name = "shows") // rename table to 'shows'
+@Table(name = "shows") // rename table to 'show'
 public class Show {
 
     @Id
@@ -25,4 +25,13 @@ public class Show {
 
     @OneToMany(mappedBy = "show")
     private List<Shift> shifts;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "show_employee",
+            joinColumns = @JoinColumn(name = "show_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private List<Employee> employees;
 }
