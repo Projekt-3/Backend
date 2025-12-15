@@ -1,5 +1,7 @@
 package org.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +26,7 @@ public class Show {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "show")
+    @JsonManagedReference
     private List<Shift> shifts;
 
 
@@ -33,5 +36,7 @@ public class Show {
             joinColumns = @JoinColumn(name = "show_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
+
+    @JsonIgnore
     private List<Employee> employees;
 }
