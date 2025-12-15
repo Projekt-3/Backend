@@ -1,5 +1,6 @@
 package org.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +30,7 @@ public class Shift {
     // ---------------------
     @ManyToOne
     @JoinColumn(name = "show_id")
+    @JsonBackReference
     private Show show;
 
     // ---------------------
