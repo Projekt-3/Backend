@@ -7,6 +7,8 @@ import org.example.backend.repository.IShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShiftService {
 
@@ -15,5 +17,9 @@ public class ShiftService {
 
     public Shift saveShift(Shift shift) {
         return iShiftRepository.save(shift);
+    }
+
+    public List<Shift> getAllShifts(){
+        return iShiftRepository.findAll();
     }
 }
