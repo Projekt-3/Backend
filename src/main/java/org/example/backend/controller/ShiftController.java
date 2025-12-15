@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -28,5 +29,29 @@ public class ShiftController {
     @GetMapping("/manager/shifts")
     public List<ShiftDTO> getAllShifts() {
         return shiftService.getAllShifts();
+    }
+
+    @GetMapping("/manager/shift/{id}")
+    public ResponseEntity<Shift> getShiftById(@PathVariable int id) {
+        Optional<Shift> shift = shiftService.getShiftbyId(id);
+
+        if (shift.isPresent()) {
+            return ResponseEntity.ok(shift.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/manager/shift/{id}")
+    public ResponseEntity<String> deleteShift(@PathVariable int id) {
+        Optional<Shift> shift = shiftService.getShiftbyId(id);
+
+        if (shift.isPresent()) {
+            shiftService.deleteShift(id);
+            return ResponseEntity.ok("Vagten er slettet");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vagten findes ikke");
+        }
     }
 }
