@@ -1,5 +1,6 @@
 package org.example.backend.controller;
 
+import org.example.backend.dto.ShiftDTO;
 import org.example.backend.model.Shift;
 import org.example.backend.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ShiftController {
     }
 
     @GetMapping("/manager/shifts")
-    public List<Shift> getAllShifts() {
+    public List<ShiftDTO> getAllShifts() {
         return shiftService.getAllShifts();
     }
 }

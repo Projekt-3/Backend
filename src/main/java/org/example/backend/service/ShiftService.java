@@ -1,5 +1,6 @@
 package org.example.backend.service;
 
+import org.example.backend.dto.ShiftDTO;
 import org.example.backend.model.Shift;
 import org.example.backend.model.Show;
 import org.example.backend.repository.IShiftRepository;
@@ -19,7 +20,16 @@ public class ShiftService {
         return iShiftRepository.save(shift);
     }
 
-    public List<Shift> getAllShifts(){
-        return iShiftRepository.findAll();
+    public List<ShiftDTO> getAllShifts(){
+        return iShiftRepository.findAll()
+                .stream()
+                .map(shift -> new ShiftDTO(
+                        shift.getId(),
+                        shift.getPlannedStart(),
+                        shift.getPlannedEnd(),
+                        shift.getShow() != null ? shift.getShow().getId() : null,
+                        shift.getShow() != null ? shift.getShow().getTitle() : null
+                ))
+                .toList();
     }
 }
