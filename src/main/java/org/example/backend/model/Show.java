@@ -37,6 +37,6 @@ public class Show {
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
 
-    @JsonIgnore
+    @JsonManagedReference
     private List<Employee> employees;
 }
