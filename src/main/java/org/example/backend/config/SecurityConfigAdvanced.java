@@ -52,7 +52,7 @@ public class SecurityConfigAdvanced {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/contact",  "/dologin", "/healthz").permitAll()
+                        .requestMatchers("/contact",  "/dologin", "/healthz", "/dashboard/manager/register/show").permitAll()
                         .requestMatchers("/dashboard/employee/**").hasAnyRole("CREW", "CAST", "TECH")
                         .requestMatchers("/dashboard/manager/**").hasRole("MANAGER")
                         .anyRequest().authenticated()

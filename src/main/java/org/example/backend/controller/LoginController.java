@@ -1,6 +1,9 @@
 package org.example.backend.controller;
 import org.example.backend.model.Employee;
 import org.example.backend.constants.SecurityConstants;
+import org.example.backend.repository.IEmployeeRepository;
+import org.example.backend.service.EmployeeLoginService;
+import org.example.backend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -27,8 +27,11 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private EmployeeService employeeService;
+
     @PostMapping("/dologin")
-    public ResponseEntity<Map<String, String>> doLogin(@RequestBody Employee employee) {
+    public ResponseEntity<Map<String, Object>> doLogin(@RequestBody Employee employee) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(employee.getMail(), employee.getPassword())
         );
@@ -49,8 +52,12 @@ public class LoginController {
                     .signWith(key)
                     .compact();
 
-            Map<String, String> body = new HashMap<>();
+            Employee loggedInEmp = employeeService.findEmployeeByMail(authentication.getName());
+
+            Map<String, Object> body = new HashMap<>();
             body.put("token", jwt);
+            body.put("employee", loggedInEmp);
+
             return ResponseEntity.ok(body);
         } else {
             throw new RuntimeException("Invalid credentials");
