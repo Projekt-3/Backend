@@ -1,13 +1,15 @@
 package org.example.backend.service;
 
+import jakarta.transaction.Transactional;
+import org.example.backend.dto.ShiftDTO;
+import org.example.backend.model.Employee;
 import org.example.backend.model.Shift;
-import org.example.backend.model.Show;
 import org.example.backend.repository.IShiftRepository;
-import org.example.backend.repository.IShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShiftService {
@@ -19,7 +21,24 @@ public class ShiftService {
         return iShiftRepository.save(shift);
     }
 
-    public List<Shift> getAllShifts(){
-        return iShiftRepository.findAll();
+    public List<ShiftDTO> getAllShifts(){
+        return iShiftRepository.findAll()
+                .stream()
+                .map(shift -> new ShiftDTO(
+                        shift.getId(),
+                        shift.getPlannedStart(),
+                        shift.getPlannedEnd(),
+                        shift.getShow() != null ? shift.getShow().getId() : null,
+                        shift.getShow() != null ? shift.getShow().getTitle() : null
+                ))
+                .toList();
+    }
+
+    public Optional<Shift> getShiftbyId(int id) {
+        return iShiftRepository.findById(id);
+    }
+
+    public void deleteShift(int id) {
+        iShiftRepository.deleteById(id);
     }
 }
