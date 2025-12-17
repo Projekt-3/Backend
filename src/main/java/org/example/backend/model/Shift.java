@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +24,15 @@ public class Shift {
 
     private LocalTime plannedStart;
     private LocalTime plannedEnd;
-    private LocalTime checkIn;
-    private LocalTime checkOut;
 
-    // ---------------------
-    // ManyToOne with Show
-    // ---------------------
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
     @ManyToOne
     @JoinColumn(name = "show_id")
     @JsonBackReference
     private Show show;
 
-    // ---------------------
-    // ManyToMany with Employee (inverse side)
-    // ---------------------
-    @ManyToMany(mappedBy = "shifts")
-    private List<Employee> employees;
+    @OneToMany (mappedBy = "shift")
+    private List<EmployeeShift> employeeShifts;
 }

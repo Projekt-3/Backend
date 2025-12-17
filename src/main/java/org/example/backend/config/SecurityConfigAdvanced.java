@@ -48,11 +48,11 @@ public class SecurityConfigAdvanced {
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
                         .ignoringRequestMatchers("/contact", "/dashboard/manager/shows","/dashboard/manager/shows/**","/dashboard/manager/employees","/dashboard/manager/shows/${showId}/employees","/dashboard/manager/register/show", "/dashboard/manager/employees/{id}","/dashboard/manager/register/employee", "/dologin", "/healthz", "/test",
-                                "/dashboard/manager/register/shift","/dashboard/manager/shift/**")
+                                "/dashboard/manager/register/shift","/dashboard/employee/*/shift", "/dashboard/employee/*/shift/**","/dashboard/manager/shift/**")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/contact",  "/dologin", "/healthz", "/dashboard/manager/register/show").permitAll()
+                        .requestMatchers("/contact",  "/dologin", "/healthz","/dashboard/manager/**", "/dashboard/manager/register/show").permitAll()
                         .requestMatchers("/dashboard/employee/**").hasAnyRole("CREW", "CAST", "TECH")
                         .requestMatchers("/dashboard/manager/**").hasRole("MANAGER")
                         .anyRequest().authenticated()

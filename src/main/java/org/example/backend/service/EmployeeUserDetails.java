@@ -19,7 +19,6 @@ public class EmployeeUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Antag at Employee har en metode getRole() som returnerer "MANAGER" eller "EMPLOYEE"
         return Collections.singletonList(
                 new SimpleGrantedAuthority("ROLE_" + employee.getRole().toString().toUpperCase())
         );

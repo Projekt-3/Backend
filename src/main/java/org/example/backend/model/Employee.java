@@ -1,6 +1,7 @@
 package org.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -34,18 +35,11 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    // ---------------------
-    // ManyToMany with Shift
-    // ---------------------
-    @ManyToMany
-    @JoinTable(
-            name = "employee_shift",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "shift_id")
-    )
-    private List<Shift> shifts;
-
     @ManyToMany(mappedBy = "employees")
     @JsonBackReference
     private List<Show> shows;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonManagedReference
+    private List<EmployeeShift> employeeShifts;
 }
