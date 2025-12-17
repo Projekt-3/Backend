@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,4 +67,9 @@ public class ShowService {
 
         return iShowRepository.save(show);
     }
+
+    public Optional<Show> getShow(Integer showId){
+        return iShowRepository.findById(showId);
+    }
+
 }
