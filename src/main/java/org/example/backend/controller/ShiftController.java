@@ -42,6 +42,16 @@ public class ShiftController {
         }
     }
 
+    @PutMapping("/manager/shift/{id}")
+    public ResponseEntity<ShiftDTO> updateShift(@PathVariable Integer id, @RequestBody ShiftDTO dto) {
+        try {
+            ShiftDTO updated = shiftService.updateShift(id, dto);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/manager/shift/{id}")
     public ResponseEntity<String> deleteShift(@PathVariable int id) {
         Optional<Shift> shift = shiftService.getShiftbyId(id);
