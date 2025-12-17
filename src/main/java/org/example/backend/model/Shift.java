@@ -2,6 +2,7 @@ package org.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,12 +33,13 @@ public class Shift {
     // ---------------------
     @ManyToOne
     @JoinColumn(name = "show_id")
-    @JsonBackReference
+    @JsonBackReference(value = "show-shifts")
     private Show show;
 
     // ---------------------
     // ManyToMany with Employee (inverse side)
     // ---------------------
-    @ManyToMany(mappedBy = "shifts")
-    private List<Employee> employees;
+    @OneToMany(mappedBy = "shift")
+    @JsonManagedReference(value = "shift-employeeShift")
+    private List<EmployeeShift> employeeShifts;
 }

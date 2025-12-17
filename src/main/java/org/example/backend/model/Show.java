@@ -26,7 +26,7 @@ public class Show {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "show")
-    @JsonManagedReference
+    @JsonManagedReference(value = "show-shifts")
     private List<Shift> shifts;
 
 
@@ -36,7 +36,6 @@ public class Show {
             joinColumns = @JoinColumn(name = "show_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
-
-    @JsonManagedReference
+    @JsonIgnore
     private List<Employee> employees;
 }
