@@ -30,5 +30,14 @@ public class ShowController {
         return showService.getAllShows();
     }
 
+    @PostMapping("/manager/shows/{showId}/employees")
+    public ResponseEntity<?> addEmployeesToShow(
+            @PathVariable Integer showId,
+            @RequestBody List<Integer> employeeIds) {
+        showService.addEmployeesToShow(showId, employeeIds);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
