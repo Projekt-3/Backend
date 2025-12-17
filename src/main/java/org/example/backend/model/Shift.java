@@ -22,8 +22,6 @@ public class Shift {
 
     private LocalTime plannedStart;
     private LocalTime plannedEnd;
-    private LocalTime checkIn;
-    private LocalTime checkOut;
 
     // ---------------------
     // ManyToOne with Show

@@ -77,4 +77,9 @@ public class EmployeeService {
         iEmployeeRepository.deleteById(id);
     }
 
+    public Employee findEmployeeByMail(String mail) {
+        return iEmployeeRepository.findByMail(mail)
+                .orElseThrow(() -> new RuntimeException("Employee not found with mail: " + mail));
+    }
+
 }
