@@ -57,6 +57,7 @@ public class ShiftService {
         Shift saved = iShiftRepository.save(shift);
         return new ShiftDTO(
                 saved.getId(),
+                saved.getDate(),
                 saved.getPlannedStart(),
                 saved.getPlannedEnd(),
                 saved.getShow() != null ? saved.getShow().getId() : null,
