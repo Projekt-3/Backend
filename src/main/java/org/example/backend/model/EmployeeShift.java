@@ -28,7 +28,7 @@ public class EmployeeShift {
     private Shift shift;
 
     @Column(nullable = true)
-    private Boolean checkInStatus = false;
+    private Boolean checkInStatus;
 
 
 }
