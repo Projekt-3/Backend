@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ public class Shift {
 
     private LocalTime plannedStart;
     private LocalTime plannedEnd;
+    private LocalDate date;
+
 
     // ---------------------
     // ManyToOne with Show

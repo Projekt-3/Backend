@@ -26,6 +26,7 @@ public class ShiftService {
                 .stream()
                 .map(shift -> new ShiftDTO(
                         shift.getId(),
+                        shift.getDate(),
                         shift.getPlannedStart(),
                         shift.getPlannedEnd(),
                         shift.getShow() != null ? shift.getShow().getId() : null,
