@@ -25,14 +25,12 @@ public class EmployeeShiftController {
         return ResponseEntity.ok(employeeShift);
     }
 
-    // Hent alle vagter for en medarbejder
     @GetMapping("/employee/{employeeId}/shifts")
     public ResponseEntity<List<EmployeeShiftDTO>> getShiftsForEmployee(@PathVariable Integer employeeId) {
         List<EmployeeShiftDTO> dtos = employeeShiftService.getShiftsForEmployeeDTO(employeeId);
         return ResponseEntity.ok(dtos);
     }
 
-    // PATCH/PUT til at checke ind/ud
     @PatchMapping("/employee-shift/{employeeShiftId}/checkin")
     public ResponseEntity<EmployeeShift> checkInOrOut(
             @PathVariable Integer employeeShiftId,

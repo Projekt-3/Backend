@@ -53,11 +53,6 @@ public class EmployeeShiftService {
         return iEmployeeShiftRepository.save(employeeShift);
     }
 
-    public List<EmployeeShift> getShiftsForEmployee(Integer employeeId) {
-        return iEmployeeShiftRepository.findByEmployeeId(employeeId);
-    }
-
-
     public List<EmployeeShiftDTO> getShiftsForEmployeeDTO(Integer employeeId) {
         return iEmployeeShiftRepository.findByEmployeeId(employeeId)
                 .stream()

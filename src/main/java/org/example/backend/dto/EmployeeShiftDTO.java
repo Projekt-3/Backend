@@ -9,18 +9,18 @@ public record EmployeeShiftDTO(
         ShiftDTO shift
 ) {
     public static EmployeeShiftDTO fromEntity(EmployeeShift es) {
-        Shift s = es.getShift(); // hent shift entity fra employeeShift
+        Shift s = es.getShift();
 
         return new EmployeeShiftDTO(
                 es.getId(),
-                es.getCheckInStatus(), // brug getCheckInStatus() som findes på EmployeeShift
+                es.getCheckInStatus(),
                 new ShiftDTO(
                         s.getId(),
                         s.getDate(),
                         s.getPlannedStart(),
                         s.getPlannedEnd(),
-                        s.getShow() != null ? s.getShow().getId() : null,       // hent showId via show
-                        s.getShow() != null ? s.getShow().getTitle() : null     // hent showTitle via show
+                        s.getShow() != null ? s.getShow().getId() : null,
+                        s.getShow() != null ? s.getShow().getTitle() : null
                 )
         );
     }
