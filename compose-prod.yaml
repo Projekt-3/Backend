@@ -1,16 +1,17 @@
-LionBackend:
-  image: ghcr.io/projekt-3/backend:latest
-  ports:
-    - "127.0.0.1:8080:8080"
-  environment:
-    MYSQL_DATABASE: ${MYSQL_DATABASE}
-    MYSQL_USER: ${MYSQL_USER}
-    MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    SPRING_CONFIG_LOCATION: file:/app/application-prod.properties
-  volumes:
-    - ./application-prod.properties:/app/application-prod.properties:ro
-  depends_on:
-    - mysql
+services:
+  LionBackend:
+    image: ghcr.io/projekt-3/backend:latest
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_CONFIG_LOCATION: file:/app/application-prod.properties
+    volumes:
+      - ./application-prod.properties:/app/application-prod.properties:ro
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:latest
