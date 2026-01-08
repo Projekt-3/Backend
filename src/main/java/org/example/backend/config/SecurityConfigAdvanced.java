@@ -63,7 +63,7 @@ public class SecurityConfigAdvanced {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+        return new BCryptPasswordEncoder(10); //PW strength
     }
 
     @Bean

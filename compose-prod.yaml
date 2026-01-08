@@ -1,12 +1,16 @@
-services:
-  LionBackend:
-    image: ghcr.io/laerkeloenborg/lion:latest #måske ændre lærke
-    ports:
-      - "127.0.0.1:8080:8080"
-    volumes:
-      - "./application-docker.properties:/app/application.properties:ro"
-    environment:
-      SPRING_CONFIG_LOCATION: file:/app/application.properties
+LionBackend:
+  image: ghcr.io/projekt-3/backend:latest
+  ports:
+    - "127.0.0.1:8080:8080"
+  environment:
+    MYSQL_DATABASE: ${MYSQL_DATABASE}
+    MYSQL_USER: ${MYSQL_USER}
+    MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    SPRING_CONFIG_LOCATION: file:/app/application-prod.properties
+  volumes:
+    - ./application-prod.properties:/app/application-prod.properties:ro
+  depends_on:
+    - mysql
 
   mysql:
     image: mysql:latest
@@ -18,9 +22,19 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "127.0.0.1:3307:3306"
+      - "127.0.0.1:3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+
+  frontend:
+    image: ghcr.io/projekt-3/lion-frontend:latest
+    container_name: lion-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - LionBackend
 
 volumes:
   mysql_data:
